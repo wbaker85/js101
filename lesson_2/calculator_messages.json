@@ -1,0 +1,11 @@
+{
+  "invalidNumber": "Invalid input, please enter a valid number!",
+  "invalidOperator": "Invalid input, please enter a valid operator!",
+  "doAnother": "Do you want to do another calculation? (Y or N)",
+  "getFirstNum" : "Input the first number",
+  "getSecondNum" : "Input the second number",
+  "getOperator" : "What operation do you want to perform? (+, -, *, /)",
+  "invalidRepeat" : "Invalid input, please enter either Y or N to do another calculation!",
+  "exit": "Goodbye!",
+  "greeting": "Welcome to Calculator!"
+}
