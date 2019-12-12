@@ -5,22 +5,22 @@ let prompt = function(text) {
 };
 
 let validAmount = function(input) {
-  return !isNaN(Number(input));
+  return !isNaN(Number(input)) && (Number(input) > 0);
 };
 
 let getAmount = function() {
-  prompt('Input the loan amount.');
+  prompt('Input the loan amount.  Must be more than 0.');
   let amount = readline.question();
   while (!validAmount(amount)) {
     prompt('Please enter a valid amount!');
-    prompt('Input the loan amount.');
+    prompt('Input the loan amount.  Must be more than 0.');
     amount = readline.question();
   }
   return Number(amount);
 };
 
 let validRate = function(input) {
-  return !isNaN(Number(input));
+  return !isNaN(Number(input)) && (Number(input) > 0);
 };
 
 let annualToMonthlyRate = function(annualRate) {
@@ -28,26 +28,28 @@ let annualToMonthlyRate = function(annualRate) {
 };
 
 let getRate = function() {
-  prompt('Input the annual loan rate like this: 5.52 (for 5.52% APR)');
+  prompt('Input the annual loan rate like this: 5.52 (for 5.52% APR).  Must be more than 0.');
   let input = readline.question();
   while (!validRate(input)) {
     prompt('Please enter a valid rate!');
-    prompt('Input the annual loan rate like this: 5.52 (for 5.52% APR)');
+    prompt('Input the annual loan rate like this: 5.52 (for 5.52% APR)  Must be more than 0.');
     input = readline.question();
   }
   return annualToMonthlyRate(input);
 };
 
 let validDuration = function(input) {
-  return !isNaN(Number(input));
+  return Number.isInteger(Number(input)) && (Number(input) > 0);
 };
 
 let getDuration = function() {
   prompt('Enter the loan duration in months.');
+  prompt('Note: Enter whole months only: 12 is fine, 12.1 is not.  Must be 1 month or longer.');
   let input = readline.question();
-  while (!validDuration) {
+  while (!validDuration(input)) {
     prompt('Please enter a valid duration!');
     prompt('Enter the loan duration in months.');
+    prompt('Note: Enter whole months only: 12 is fine, 12.1 is not.  Must be 1 month or longer.');
     input = readline.question();
   }
   return Number(input);
@@ -83,7 +85,8 @@ let displayGreeting = function(text) {
 };
 
 let displayResults = function(payment, duration) {
-  prompt(`Monthly Payment: ${payment}.  Loan Duration: ${duration} months.`);
+  let roundedPayment = payment.toFixed(2);
+  prompt(`Monthly Payment: $${roundedPayment}.  Loan Duration: ${duration} months.`);
 };
 
 let clearScreen = function() {
