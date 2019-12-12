@@ -63,12 +63,19 @@ let calcPayment = function(amount, rate, duration) {
   return p * (j / (1 - Math.pow((1 + j),(-n))));
 };
 
-let validCalcAgainChoice = function () {
-
+let validCalcAgainChoice = function(choice) {
+  return !!choice.match(/^[yn]$/i);
 };
 
 let calcAgain = function() {
-
+  prompt('Would you like to do another calculation? Enter Y or N.')
+  let choice = readline.question();
+  while (!validCalcAgainChoice(choice)) {
+   prompt('Invalid input!') 
+   prompt('Would you like to do another calculation? Enter Y or N.')
+   choice = readline.question();
+  }
+  return choice.toLowerCase() === 'y';
 };
 
 let displayGreeting = function(text) {
@@ -90,6 +97,6 @@ while (true) {
   let rate = getRate();
   let duration = getDuration();
   let monthlyPayment = calcPayment(amount, rate, duration);
-  displayResults(monthlyPlayment, duration);
+  displayResults(monthlyPayment, duration);
   if (!calcAgain()) break;
 }
