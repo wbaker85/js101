@@ -38,7 +38,7 @@ let getRate = function() {
   return annualToMonthlyRate(input);
 };
 
-let validDuration = function() {
+let validDuration = function(input) {
   return !isNaN(Number(input));
 };
 
@@ -57,7 +57,7 @@ let calcPayment = function(amount, rate, duration) {
   // eslint-disable-next-line id-length
   let p = amount;
   // eslint-disable-next-line id-length
-  let j = rate;
+  let j = rate / 100;
   // eslint-disable-next-line id-length
   let n = duration;
   return p * (j / (1 - Math.pow((1 + j),(-n))));
@@ -87,7 +87,7 @@ let displayResults = function(payment, duration) {
 };
 
 let clearScreen = function() {
-  // console.log('\033[2J');
+  console.log('\033[2J');
 };
 
 while (true) {
