@@ -1,26 +1,45 @@
-let readline = require('readline-sync');
+const readline = require('readline-sync');
+const messages = require('./mortgage_messages.json');
+
+let clearScreen = function() {
+  console.clear();
+};
 
 let prompt = function(text) {
   console.log(`=> ${text}`);
+};
+
+let lineBreak = function() {
+  console.log();
 };
 
 let validAmount = function(input) {
   return !isNaN(Number(input)) && (Number(input) > 0);
 };
 
+let validRate = function(input) {
+  return !isNaN(Number(input)) && (Number(input) >= 0);
+};
+
+let validDuration = function(input) {
+  return Number.isInteger(Number(input)) && (Number(input) > 0);
+};
+
+let validCalcAgainChoice = function(choice) {
+  return !!choice.match(/^[yn]$/i);
+};
+
 let getAmount = function() {
-  prompt('Input the loan amount.  Must be more than 0.');
+  lineBreak();
+  prompt(messages.loanAmount);
   let amount = readline.question();
   while (!validAmount(amount)) {
-    prompt('Please enter a valid amount!');
-    prompt('Input the loan amount.  Must be more than 0.');
+    prompt(messages.loanAmountError);
+    lineBreak();
+    prompt(messages.loanAmount);
     amount = readline.question();
   }
   return Number(amount);
-};
-
-let validRate = function(input) {
-  return !isNaN(Number(input)) && (Number(input) > 0);
 };
 
 let annualToMonthlyRate = function(annualRate) {
@@ -28,28 +47,28 @@ let annualToMonthlyRate = function(annualRate) {
 };
 
 let getRate = function() {
-  prompt('Input the annual loan rate like this: 5.52 (for 5.52% APR).  Must be more than 0.');
+  lineBreak();
+  prompt(messages.annualRate);
   let input = readline.question();
   while (!validRate(input)) {
-    prompt('Please enter a valid rate!');
-    prompt('Input the annual loan rate like this: 5.52 (for 5.52% APR)  Must be more than 0.');
+    prompt(messages.annualRateError);
+    lineBreak();
+    prompt(messages.annualRate);
     input = readline.question();
   }
   return annualToMonthlyRate(input);
 };
 
-let validDuration = function(input) {
-  return Number.isInteger(Number(input)) && (Number(input) > 0);
-};
-
 let getDuration = function() {
-  prompt('Enter the loan duration in months.');
-  prompt('Note: Enter whole months only: 12 is fine, 12.1 is not.  Must be 1 month or longer.');
+  lineBreak();
+  prompt(messages.loanDuration);
+  prompt(messages.loanDurationNote);
   let input = readline.question();
   while (!validDuration(input)) {
-    prompt('Please enter a valid duration!');
-    prompt('Enter the loan duration in months.');
-    prompt('Note: Enter whole months only: 12 is fine, 12.1 is not.  Must be 1 month or longer.');
+    prompt(messages.loanDurationError);
+    lineBreak();
+    prompt(messages.loanDuration);
+    prompt(messages.loanDurationNote);
     input = readline.question();
   }
   return Number(input);
@@ -62,19 +81,20 @@ let calcPayment = function(amount, rate, duration) {
   let j = rate / 100;
   // eslint-disable-next-line id-length
   let n = duration;
-  return p * (j / (1 - Math.pow((1 + j),(-n))));
-};
-
-let validCalcAgainChoice = function(choice) {
-  return !!choice.match(/^[yn]$/i);
+  if (j === 0) {
+    return p / n;
+  } else {
+    return p * (j / (1 - Math.pow((1 + j),(-n))));
+  }
 };
 
 let calcAgain = function() {
-  prompt('Would you like to do another calculation? Enter Y or N.')
+  lineBreak();
+  prompt(messages.calcAgain);
   let choice = readline.question();
   while (!validCalcAgainChoice(choice)) {
-   prompt('Invalid input!') 
-   prompt('Would you like to do another calculation? Enter Y or N.')
+   prompt(messages.calcAgainError);
+   prompt(messages.calcAgain);
    choice = readline.question();
   }
   return choice.toLowerCase() === 'y';
@@ -85,17 +105,15 @@ let displayGreeting = function(text) {
 };
 
 let displayResults = function(payment, duration) {
+  lineBreak();
   let roundedPayment = payment.toFixed(2);
-  prompt(`Monthly Payment: $${roundedPayment}.  Loan Duration: ${duration} months.`);
-};
-
-let clearScreen = function() {
-  console.log('\033[2J');
+  prompt(`${messages.paymentPrefix}${roundedPayment}`);
+  prompt(`${messages.durationPrefix}${duration}`);
 };
 
 while (true) {
   clearScreen();
-  displayGreeting('Mortgage calculator');
+  displayGreeting(messages.greetingMessage);
   let amount = getAmount();
   let rate = getRate();
   let duration = getDuration();
@@ -103,3 +121,6 @@ while (true) {
   displayResults(monthlyPayment, duration);
   if (!calcAgain()) break;
 }
+
+lineBreak();
+prompt(messages.exitMessage);

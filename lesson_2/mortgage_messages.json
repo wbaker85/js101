@@ -1,0 +1,15 @@
+{
+  "loanAmount" : "Input the loan amount.  Must be more than 0.",
+  "loanAmountError" : "Invalid loan amount!  Must enter a positive number larger than 0, like '250000'.",
+  "annualRate" : "Input the annual loan rate like this: 5.52 (for 5.52% APR).  Cannot be negative.",
+  "annualRateError" : "Invalid rate!  Must enter a number greater than or equal to zero.",
+  "loanDuration" : "Enter the loan duration in months.",
+  "loanDurationNote" : "Note: Enter whole months only: 12 is fine, 12.1 is not.  Must be 1 month or longer.",
+  "loanDurationError" : "Invalid duration!  Must enter an integer greater than 0.",
+  "calcAgain" : "Would you like to do another calculation? Enter Y or N.",
+  "calcAgainError" : "Invalid choice!  Enter Y to repeat, or N to exit.",
+  "greetingMessage" : "MORTGAGE CALCULATOR",
+  "exitMessage" : "Goodbye!",
+  "paymentPrefix" : "Monthly Payment: $",
+  "durationPrefix": "Loan Duration (months): "
+}
